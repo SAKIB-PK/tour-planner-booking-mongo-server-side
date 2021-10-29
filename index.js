@@ -21,6 +21,19 @@ async function main(){
         // database client connection 
         await client.connect()
         console.log("database connection successfully");
+        const database = await client.db('tourist-spot')
+        const collection = await database.collection('services-place')
+
+        // services post 
+        app.post('/services',(req,res)=>{
+            const result = collection.insertOne(req.body)
+            res.json(result)
+        })
+        // services get request 
+        app.get('/services',(req,res)=>{
+            const result = collection.find({})
+            res.json(result)
+        })
 
     }finally{
         // perform actions on the collection object
