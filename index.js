@@ -25,13 +25,14 @@ async function main(){
         const collection = await database.collection('services-place')
 
         // services post 
-        app.post('/services',(req,res)=>{
-            const result = collection.insertOne(req.body)
+        app.post('/services',async(req,res)=>{
+            const result =await collection.insertOne(req.body)
             res.json(result)
         })
         // services get request 
-        app.get('/services',(req,res)=>{
-            const result = collection.find({})
+        app.get('/services',async(req,res)=>{
+            const result =await collection.find({}).toArray()
+            console.log(result);
             res.json(result)
         })
 
