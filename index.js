@@ -29,10 +29,30 @@ async function main(){
             const result =await collection.insertOne(req.body)
             res.json(result)
         })
+        // services post 
+        app.put('/services/:id',async(req,res)=>{
+            const id = req.params.id
+            const query ={_id:ObjectId(id)}
+            const docs = req.body
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: true };
+            // create a document that sets the plot of the movie
+            const updateItem = {
+                $set:docs,
+            };
+            const result =await collection.updateOne(query,updateItem,options)
+            res.json(result)
+        })
+        // services deleted request 
+        app.delete('/services/:id',(req,res)=>{
+            const id = req.params.id
+            const query = {_id:ObjectId(id)}
+            const result = await collection.deleteOne(query)
+            res.json(result)
+        })
         // services get request 
         app.get('/services',async(req,res)=>{
             const result =await collection.find({}).toArray()
-            console.log(result);
             res.json(result)
         })
 
@@ -46,7 +66,7 @@ main().catch(console.dir())
 
 // root get request 
 app.get('/',(req,res)=>{
-    res.sendFile(`${__dirname}/src/index.html`)
+    res.send("<h2>Server is Running</h2>")
 })
 
 
