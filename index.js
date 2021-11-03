@@ -52,7 +52,14 @@ async function main(){
         })
         // services get request 
         app.get('/services',async(req,res)=>{
+            // db.collection.find().limit(1).sort({$natural:-1})
             const result =await collection.find({}).toArray()
+            res.json(result)
+        })
+        // services get request 
+        app.get('/home/services',async(req,res)=>{
+            // db.collection.find().limit(1).sort({$natural:-1})
+            const result =await collection.find({}).limit(6).sort({$natural:-1}).toArray()
             res.json(result)
         })
 
