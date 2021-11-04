@@ -23,7 +23,13 @@ async function main(){
         console.log("database connection successfully");
         const database = await client.db('tourist-spot')
         const collection = await database.collection('services-place')
+        const orderDetails = await database.collection('order-details')
 
+        // order-details post 
+        app.post('/order-details',async(req,res)=>{
+            const result =await orderDetails.insertOne(req.body)
+            res.json(result)
+        })
         // services post 
         app.post('/services',async(req,res)=>{
             const result =await collection.insertOne(req.body)
@@ -48,6 +54,12 @@ async function main(){
             const id = req.params.id
             const query = {_id:ObjectId(id)}
             const result = await collection.deleteOne(query)
+            res.json(result)
+        })
+        // order details get request 
+        app.get('/order-details',async(req,res)=>{
+            // db.collection.find().limit(1).sort({$natural:-1})
+            const result =await orderDetails.find({}).toArray()
             res.json(result)
         })
         // services get request 
