@@ -62,6 +62,12 @@ async function main(){
             const result =await orderDetails.find({}).toArray()
             res.json(result)
         })
+        // order details get request 
+        app.delete('/order-details/:id',async(req,res)=>{
+            const id = req.params.id
+            const result =await orderDetails.deleteOne({_id:ObjectId(id)})
+            res.json(result)
+        })
         // services get request 
         app.get('/services',async(req,res)=>{
             // db.collection.find().limit(1).sort({$natural:-1})
