@@ -71,7 +71,23 @@ async function main(){
         // order details update request 
         app.put('/order-details/:id',async(req,res)=>{
             const id = req.params.id
-            const result =await orderDetails.updateOne({_id:ObjectId(id)})
+            const item = req.body.status
+            const query  = {_id:ObjectId(id)}
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: true };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+                $set:{
+                    status:item
+                },
+            };
+            const result =await orderDetails.updateOne(query,updateDoc,options)
+            res.json(result)
+        })
+        // order details one item request 
+        app.get('/order-details/:id',async(req,res)=>{
+            const id = req.params.id
+            const result =await orderDetails.find({_id:ObjectId(id)}).toArray()
             res.json(result)
         })
         // services get request 
